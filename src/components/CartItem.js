@@ -3,59 +3,59 @@ import styled from 'styled-components/native';
 import { Colors } from '../consts';
 import {Row} from '../ui/Grid/Row'
 import { TouchableOpacity } from "react-native";
+import { useDispatch } from "react-redux";
+import { incrementCountItem, decrementCountItem } from "../reducers/cartReducer";
+import { ItemData } from "./ItemData";
 
 const {textColor, backgroundColorDark} = Colors
 
-export const Item = ({name, price, image, isButtons = false}) => {
+export const Cartitem = ({id, name, price, image, count}) => {
 
-  const [count, setCount] = useState(1);
+  const [countItem, setCountItem] = useState(count);
 
-  const handleCountMinus = () => {
-    if (count === 1) { return }
-    setCount(count - 1)
+  const dispatch = useDispatch()
+
+
+  const handleCountDecrement = () => {
+    if (countItem === 1) { return }
+    setCountItem(countItem - 1)
+    dispatch(decrementCountItem(id))
   }
-  const handleCountPlus = () => setCount(count + 1)
+  const handleCountIncrement = () => {
+    setCountItem(countItem + 1)
+    dispatch(incrementCountItem(id))
+  }
 
   return (
-    <Card as={Row}>
-      <Row>
-        <CustomImage
-          source={image}
-        />
-      </Row>
-      <Row direction='column'>
-        <Text>{name}</Text>
-        <Text>{price}</Text>
-      </Row>
-      {isButtons &&
-        <Row as={CountButtons} direction='column'>
-          <CountButton as={TouchableOpacity} onPress={handleCountMinus}><Text>-</Text></CountButton>
-          <CountButton><Text>{count}</Text></CountButton>
-          <CountButton as={TouchableOpacity} onPress={handleCountPlus}><Text>+</Text></CountButton>
-        </Row>
-      }
+    <Cart as={Row}>
+      <ItemData name={name} price={price} image={image} />
 
+      <Row as={CountButtons} direction='column'>
+        <CountButton as={TouchableOpacity} onPress={handleCountDecrement}><Text>-</Text></CountButton>
+        <CountButton><Count>{countItem}</Count></CountButton>
+        <CountButton as={TouchableOpacity} onPress={handleCountIncrement}><Text>+</Text></CountButton>
+      </Row>
 
-    </Card>
+    </Cart>
   )
 }
 
 const {blueColor} = Colors
 
+const Count = styled.Text`
+  padding: 5px 5px 10px;
+  color: ${textColor};
+  font-size: 12px;
+`;
 const Text = styled.Text`
   padding: 5px 5px 10px;
   color: ${textColor};
 `;
-const Card = styled.Text`
+const Cart = styled.Text`
   padding: 5px 5px 10px;
   color: ${textColor};
   background: ${backgroundColorDark};
   margin-bottom: 10px;
-`;
-const CustomImage = styled.Image`
-    width: 50px;
-    height: 50px;
-    margin-right: 10px;
 `;
 
 const CountButton = styled.View`

@@ -1,16 +1,13 @@
 import React from 'react';
 import { StatusBar } from 'react-native';
 import { Provider } from 'react-redux';
-
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-
-import { MainLayout } from './src/client/layout/mainLayout';
-
-import { Home } from './src/client/pages/home/Home';
-import { Groups } from './src/client/pages/groups/Groups';
-import { Group } from './src/client/pages/groups/Group';
-import { store } from './src/client/src/reducers';
+import { MainLayout } from './src/layout/mainLayout';
+import { Home } from './src/pages/home/Home';
+import { Item } from './src/pages/Item/Item';
+import { Cart } from './src/pages/Cart/Cart';
+import { store } from './src/reducers/store';
 
 const Stack = createNativeStackNavigator();
 
@@ -33,8 +30,8 @@ const Navigator = () => {
       <MainLayout>
         <Stack.Navigator screenOptions={{headerShown: false}}>
           <Stack.Screen name="Home" component={Home} />
-          <Stack.Screen name="Groups" component={Groups} />
-          <Stack.Screen name="Group" component={Group} />
+          <Stack.Screen name="Cart" component={Cart} />
+          <Stack.Screen name="Item" component={Item} />
         </Stack.Navigator>
       </MainLayout>
     </NavigationContainer>

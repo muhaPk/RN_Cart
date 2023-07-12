@@ -1,51 +1,45 @@
 import React, {useEffect} from 'react';
-
 import {Container} from "../../ui/Grid/Container";
 import {setItems} from "../../reducers/itemsReducer"
-
 import {useDispatch, useSelector} from "react-redux";
-import {styled} from "styled-components";
-
 import {Item} from '../../components/Item';
+import { useNavigation } from "@react-navigation/native";
+import { TouchableOpacity } from 'react-native';
+import {staticData} from '../../assets/data/data'
 
 export const Home = () => {
 
-  const { items } = useSelector((state) => state.items)
-  console.log("items", items);
+  const { data } = useSelector((state) => state.items)
 
   const dispatch = useDispatch()
 
   useEffect(() => {
 
-    const newData = []
-
-    for (let n = 0; n < 4; n++) {
-      newData.push({
-        id: n,
-        name: `card ${n}`,
-        price: `card ${n}`
-      })
+    if (!data.length) {
+      dispatch(setItems(staticData));
     }
 
-    if (!items.length) {
-      dispatch(setItems(newData));
-    }
+  }, [data, dispatch]);
 
-  }, [items, dispatch]);
+    const navigation = useNavigation();
 
     return (
         <Container>
 
-          <Text>123</Text>
-          {items?.map(({name, price}, i) => <Item key={i} name={name} price={price} />)}
+          {data?.map(({id, name, price, image}, i) =>
+
+            <TouchableOpacity key={i} onPress={() => { navigation.navigate('Item', {id: id}); }}>
+              <Item
+                name={name}
+                price={price}
+                image={image}
+                navigation={navigation}
+              />
+            </TouchableOpacity>
+
+          )}
+
         </Container>
 
     );
 }
-
-const Text = styled.Text`
-  font-size: 18px;
-  font-weight: normal;
-  color: #eee;
-  margin-bottom: 10px;
-`;

@@ -1,16 +1,23 @@
 import React from "react";
 import styled from 'styled-components/native';
+import { Colors } from '../consts';
+import {Row} from '../ui/Grid/Row'
+import {ItemData} from "./ItemData"
 
-export const Item = ({name, price}) => {
+const {textColor, backgroundColorDark} = Colors
+
+export const Item = ({name, price, image}) => {
 
   return (
-    <Box>
-      {name}
-      {price}
-    </Box>
+    <Cart as={Row}>
+      <ItemData name={name} price={price} image={image} />
+    </Cart>
   )
 }
 
-const Box = styled.Text`
+const Cart = styled.Text`
   padding: 5px 5px 10px;
+  color: ${textColor};
+  background: ${backgroundColorDark};
+  margin-bottom: 10px;
 `;

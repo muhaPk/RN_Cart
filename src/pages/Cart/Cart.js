@@ -1,51 +1,61 @@
-import React, {useEffect} from 'react';
-
+import React from "react";
 import {Container} from "../../ui/Grid/Container";
-import {setItems} from "../../reducers/itemsReducer"
-import {Text} from "../../ui/Grid/Text"
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import styled from "styled-components/native";
-
-import {Item} from '../../components/Item';
+import {Cartitem} from '../../components/CartItem';
 import { useNavigation } from "@react-navigation/native";
 import { TouchableOpacity } from 'react-native';
+import { Row } from "../../ui/Grid/Row";
+import { Colors } from "../../consts";
+import {Text} from '../../ui/Grid/Text'
 
 export const Cart = () => {
 
-  const { data } = useSelector((state) => state.card)
+    const { data, total } = useSelector((state) => state.cart)
 
-  const dispatch = useDispatch()
-
-  console.log("data", data);
-
-  if (!data.length) {
-    return (
-      <Container>
-        <Text>No data in card</Text>
-      </Container>
-    )
-  }
+    if (!data.length) {
+      return (
+        <Container>
+          <Text>Your cart is empty..</Text>
+        </Container>
+      )
+    }
 
     const navigation = useNavigation();
 
     return (
         <Container>
 
-          {data?.map(({id, name, price, image}, i) =>
+          {data?.map(({id, name, price, image, count}, i) =>
 
             <TouchableOpacity key={i} onPress={() => { navigation.navigate('Item', {id: id}); }}>
-              <Item
+              <Cartitem
+                id={id}
                 name={name}
                 price={price}
                 image={image}
-                isButtons={true}
+                count={count}
                 navigation={navigation}
               />
             </TouchableOpacity>
-
           )}
+
+          <Row as={Total} justify='center' align='flex-end'>
+            <LargeText>Total: ${total}</LargeText>
+          </Row>
 
         </Container>
 
     );
 }
+
+const {textColor} = Colors
+
+const Total = styled.View`
+  display: flex;
+  flex: 1;
+`;
+const LargeText = styled.Text`
+  font-size: 24px;
+  color: ${textColor};
+`;

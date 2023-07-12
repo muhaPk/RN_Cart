@@ -1,22 +1,30 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 
-const cardItemsReducer = createSlice({
-    name: 'card',
+const cartItemsReducer = createSlice({
+    name: 'cart',
     initialState: {
         data: [],
+        count: 0,
+        total: 0,
     },
     reducers: {
-        addCardItems(state, action) {
+        addCartItems(state, action) {
             state.data.push(action.payload)
+            state.total += action.payload.count * action.payload.price
+            state.count ++
         },
-        removeCardItem(state, action) {
-            const i = state.data.findIndex(item => item.id === action.payload)
-            state.data.splice(i, 1)
+        incrementCountItem(state, action) {
+            state.data.find(item => item.id === action.payload).count += 1
+            state.total += state.data.find(item => item.id === action.payload).price
+        },
+        decrementCountItem(state, action) {
+            state.data.find(item => item.id === action.payload).count -= 1
+            state.total -= state.data.find(item => item.id === action.payload).price
         },
     }
 
 })
 
-export default cardItemsReducer.reducer;
-export const {addCardItems, removeCardItem} = cardItemsReducer.actions;
+export default cartItemsReducer.reducer;
+export const {addCartItems, incrementCountItem, decrementCountItem} = cartItemsReducer.actions;

@@ -1,6 +1,6 @@
-import React, {FC, ReactNode} from 'react';
+import React from 'react';
 
-import styled from 'styled-components';
+import styled from 'styled-components/native';
 
 export const RowStyled = styled.View`
   
@@ -21,32 +21,9 @@ export const RowStyled = styled.View`
         ${({ mb5 }) => mb5 && `marginBottom: 30px;`}
 `;
 
-type Props = {
-  children? : ReactNode,
-  direction?: string,
-  align?: string,
-  justify?: string,
-
-  // noWrap?: boolean,
-  // inline?: boolean,
-  // pointer?: boolean,
-  // fullWidth?: boolean,
-  // hide?: boolean,
-
-  mb?: boolean,
-  mb2?: boolean,
-  mb3?: boolean,
-  mb4?: boolean,
-  mb5?: boolean,
-  mt?: boolean,
-  mt2?: boolean,
-  mt3?: boolean,
-  mt4?: boolean,
-  mt5?: boolean,
-}
 
 // @ts-ignore
-export const Row: FC<Props> = ({
+export const Row = ({
 
   children,
   direction,
@@ -70,7 +47,7 @@ export const Row: FC<Props> = ({
   mt4,
   mt5,
   ...rest
-    }: Props) => {
+    }) => {
 
     return (
         <RowStyled

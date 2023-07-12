@@ -1,12 +1,8 @@
 import React from 'react';
-
 import {Dimensions} from 'react-native'
 import { Colors } from '../consts';
-const fullHeight = Dimensions.get('window').height - 140
-
 import { Footer } from './footer';
 import { Header } from './header';
-
 import styled from 'styled-components/native';
 
 export const MainLayout = ({children}) => {
@@ -20,6 +16,7 @@ export const MainLayout = ({children}) => {
     );
 };
 
+const fullHeight = Dimensions.get('window').height - 100
 
 const Container = styled.View`
   display: flex;

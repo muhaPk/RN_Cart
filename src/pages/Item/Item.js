@@ -8,12 +8,13 @@ import { CustomButton } from "../../ui/CustomButton";
 import { Colors } from "../../consts";
 import { TouchableOpacity } from 'react-native';
 import {useDispatch} from "react-redux";
-import {addCardItems} from '../../reducers/cardReducer'
+import { addCartItems, incrementCountItem } from "../../reducers/cartReducer";
 
 
 export const Item = ({route}) => {
 
-    const {data} = useSelector(state => state.items)
+    const {data: dataItems} = useSelector(state => state.items)
+    const {data: dataCart} = useSelector(state => state.cart)
     const [item, setItem] = useState(null);
     const [count, setCount] = useState(1);
 
@@ -24,7 +25,7 @@ export const Item = ({route}) => {
 
             const itemId = route?.params?.id
 
-            const getGroup = data.filter( el => el.id === itemId )[0]
+            const getGroup = dataItems.filter( el => el.id === itemId )[0]
           setItem(getGroup)
         }
 
@@ -37,8 +38,16 @@ export const Item = ({route}) => {
 
 
     const addToCart = () => {
-      const newItem = {...item, count: count}
-      dispatch(addCardItems(newItem))
+
+      const isInCart = dataCart.find(el => el.id === item.id)
+
+      if (isInCart) {
+        dispatch(incrementCountItem(item.id))
+      } else {
+        const newItem = {...item, count: count}
+        dispatch(addCartItems(newItem))
+      }
+
     }
 
     const handleCountMinus = () => {
@@ -57,16 +66,14 @@ export const Item = ({route}) => {
 
                 <Row direction='column'>
                     <Text>{item?.name}</Text>
-                    <Text>price: {item?.price}</Text>
+                    <Text>price: ${item?.price}</Text>
                 </Row>
 
             </Row>
 
-            <Dateils>
-                <Text>details: 123</Text>
-                <Text>details: 123</Text>
-                <Text>details: 123</Text>
-            </Dateils>
+            <Datails>
+                <Text>details...</Text>
+            </Datails>
 
 
             <Row justify='center'>
@@ -99,7 +106,8 @@ const CountButton = styled.View`
     margin: 0 5px;
     border: 1px solid ${blueColor};
 `;
-const Dateils = styled.View`
+const Datails = styled.View`
   display: flex;
+  align-items: center;
   flex: 1;
 `;

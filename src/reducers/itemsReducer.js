@@ -4,11 +4,11 @@ import {createSlice} from '@reduxjs/toolkit';
 const itemmsReducer = createSlice({
     name: 'items',
     initialState: {
-        items: [],
+        data: [],
     },
     reducers: {
         setItems(state, action) {
-            state.items = action.payload
+            state.data = action.payload
         },
     }
 
