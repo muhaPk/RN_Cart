@@ -5,10 +5,12 @@ const itemmsReducer = createSlice({
     name: 'items',
     initialState: {
         data: [],
+        loading: false
     },
     reducers: {
         setItems(state, action) {
             state.data = action.payload
+            state.loading = true
         },
     }
 

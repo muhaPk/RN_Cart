@@ -9,17 +9,17 @@ import {staticData} from '../../assets/data/data'
 
 export const Home = () => {
 
-  const { data } = useSelector((state) => state.items)
+  const { data, loading } = useSelector((state) => state.items)
 
   const dispatch = useDispatch()
 
   useEffect(() => {
 
-    if (!data.length) {
+    if (!loading) {
       dispatch(setItems(staticData));
     }
 
-  }, [data, dispatch]);
+  }, [loading, dispatch]);
 
     const navigation = useNavigation();
 
